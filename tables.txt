@@ -1,0 +1,55 @@
+CREATE TABLE Recipes (
+    recipe_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    instructions TEXT,
+    dish_type VARCHAR(50),
+    taste_profile VARCHAR(50)
+);
+-- Tags Table
+CREATE TABLE Tags (
+    tag_id SERIAL PRIMARY KEY,
+    tag_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Ingredients Table
+CREATE TABLE Ingredients (
+    ingredient_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- Recipe_Ingredients Table
+CREATE TABLE Recipe_Ingredients (
+    id SERIAL PRIMARY KEY,
+    recipe_id INTEGER REFERENCES Recipes(recipe_id) ON DELETE CASCADE,
+    ingredient_id INTEGER REFERENCES Ingredients(ingredient_id) ON DELETE CASCADE,
+    quantity VARCHAR(50),
+    unit VARCHAR(20) DEFAULT 'unit'
+);
+
+-- Recipe_Tags Table
+CREATE TABLE Recipe_Tags (
+    id SERIAL PRIMARY KEY,
+    recipe_id INTEGER REFERENCES Recipes(recipe_id) ON DELETE CASCADE,
+    tag_id INTEGER REFERENCES Tags(tag_id) ON DELETE CASCADE
+);
+
+-- Tags Table
+
+INSERT INTO Tags (tag_id, tag_name) VALUES (1, 'spicy');
+INSERT INTO Tags (tag_id, tag_name) VALUES (2, 'savory');
+INSERT INTO Tags (tag_id, tag_name) VALUES (3, 'sweet');
+INSERT INTO Tags (tag_id, tag_name) VALUES (4, 'sour');
+INSERT INTO Tags (tag_id, tag_name) VALUES (5, 'umami');
+INSERT INTO Tags (tag_id, tag_name) VALUES (6, 'vegetarian');
+INSERT INTO Tags (tag_id, tag_name) VALUES (7, 'gluten-free');
+INSERT INTO Tags (tag_id, tag_name) VALUES (8, 'vegan');
+INSERT INTO Tags (tag_id, tag_name) VALUES (9, 'low-calorie');
+INSERT INTO Tags (tag_id, tag_name) VALUES (10, 'high-protein');
+
+
+-- Import to postgreSQL
+\copy Recipes FROM 'C:\\Users\\User\\Desktop\\Recommender\\recipes.csv' DELIMITER ',' CSV HEADER;
+\copy Ingredients(name) FROM 'C:\\Users\\User\\Desktop\\Recommender\\final_final_ingredients.csv' DELIMITER ',' CSV HEADER;
+\copy Recipe_Ingredients(recipe_id, ingredient_id, quantity, unit) FROM 'C:\\Users\\User\\Desktop\\Recommender\\final_final_recipe_ingredients.csv' DELIMITER ',' CSV HEADER;
+\copy Recipe_Tags(recipe_id, tag_id) FROM 'C:\\Users\\User\\Desktop\\Recommender\\final_final_recipe_tags.csv' DELIMITER ',' CSV HEADER;
