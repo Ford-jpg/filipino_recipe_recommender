@@ -2,6 +2,7 @@ Flask==2.2.3
 Flask-SQLAlchemy==3.0.3
 psycopg2-binary==2.9.6
 spacy==3.6.1
+googletrans==4.0.0-rc1
 
 # Run this after installing packages in requirements.txt
 python -m spacy download en_core_web_sm
